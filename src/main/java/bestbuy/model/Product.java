@@ -1,5 +1,6 @@
 package bestbuy.model;
 
+
 import java.util.Date;
 
 public class Product {
@@ -10,14 +11,19 @@ public class Product {
     private String productSubCategory;
 
     private String productDescription;
+
     private double productPrice;
     private String manufacturer;
+
     private int inventory;
+
     private double discountPercent;
 
     private Date   productAddedDate;
 
     private Date   productUpdatedDate;
+
+    public static String headers [] ={"PRODUCT_ID","PRODUCT_NAME","PRODUCT_CATEGORY","PRODUCT_PRICE"};
 
     public String getProductID() {
         return productID;

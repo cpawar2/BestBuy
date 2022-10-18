@@ -1,16 +1,8 @@
 package bestbuy.model;
-class BestBuyNode<T> {
-    T data; //Data in the current node
-    BestBuyNode next; //Reference for the next node
 
-    //Constructor which takes an T value which is stored as the data in this Node object.
-    BestBuyNode(T data) {
-        this.data = data;
-    }
-}
 public class BestBuyLinkedList<T> {
 
-    BestBuyNode head;
+    public BestBuyNode head;
 
     //function to add an element to the list at the end if there are element already and at the start if no elements are there
     public void insert(T data) {
