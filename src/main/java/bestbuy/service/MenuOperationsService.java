@@ -30,7 +30,7 @@ public class MenuOperationsService implements IService {
 
 
     public static void main(String[] args) {
-        System.out.println("--------------------------------------WELCOME TO BEST BUY----------------------------------------------------------------- ");
+        System.out.println("--------------------------------------WELCOME TO BEST BUY-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         menuOperationsService.showMainMenu();
     }
     }

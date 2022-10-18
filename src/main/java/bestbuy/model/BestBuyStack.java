@@ -78,7 +78,7 @@ public class BestBuyStack<T> {
             }
 
             String[][] productsData  = new String[countOfElements][5];
-            int row = countOfElements-1;
+            int row = 0;
             temp = top;
             while (temp != null) {
                 Order orderToIterate = (Order) temp.data;
@@ -88,7 +88,7 @@ public class BestBuyStack<T> {
                 productsData[row][3] = orderToIterate.quantity+"";
                 productsData[row][4] = orderToIterate.price+" $";
 
-                row -= 1;
+                row += 1;
                 temp = temp.next;
             }
                 ASCIITable.getInstance().printTable(headers, productsData);
