@@ -23,7 +23,9 @@ public class AdminOperationsService implements IService {
         while(true){
             System.out.println("1) ENTER 1 TO VIEW ALL ORDERS");
             System.out.println("2) ENTER 2 TO UPDATE ORDER STATUS");
-            System.out.println("3) ENTER 3 TO GO BACK TO MAIN MENU");
+            System.out.println("3) ENTER 3 TO VIEW ALL PRODUCT INVENTORY DATA");
+            System.out.println("4) ENTER 4 TO UPDATE A PRODUCTS INVENTORY");
+            System.out.println("5) ENTER 5 TO RETURN TO MAIN MENU");
             int choice = MenuOperationsService.scanner.nextInt();
             switch (choice){
                 case 1:
@@ -40,6 +42,16 @@ public class AdminOperationsService implements IService {
                     OrderOperations.orderOperations.updateOrder(orderNO,orderStatus);
                     break;
                 case 3:
+                    ProductOperationService.productOperationService.displayProductInventoryData();
+                    break;
+                case 4:
+                    System.out.println("Enter product ID for which inventory is to be updated");
+                    String productID = MenuOperationsService.scanner.next();
+                    System.out.println("Enter quantity to be updated to ");
+                    int quantity = MenuOperationsService.scanner.nextInt();
+                    ProductOperationService.productOperationService.updateProductInventory(productID,quantity);
+                    break;
+                case 5:
                     MenuOperationsService.menuOperationsService.showMainMenu();
                     break;
             }

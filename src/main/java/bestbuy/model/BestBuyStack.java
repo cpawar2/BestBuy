@@ -67,6 +67,7 @@ public class BestBuyStack<T> {
 
 
         } else{
+           String [] headers = {"PRODUCT_ID","PRODUCT_NAME","CATEGORY","QUANTITY","PRICE"};
             BestBuyNode temp = top;
             //
             int countOfElements = 0;
@@ -76,7 +77,7 @@ public class BestBuyStack<T> {
                 temp = temp.next;
             }
 
-            String[][] productsData  = new String[countOfElements][Order.headers.length];
+            String[][] productsData  = new String[countOfElements][5];
             int row = countOfElements-1;
             temp = top;
             while (temp != null) {
@@ -90,7 +91,7 @@ public class BestBuyStack<T> {
                 row -= 1;
                 temp = temp.next;
             }
-                ASCIITable.getInstance().printTable(Order.headers, productsData);
+                ASCIITable.getInstance().printTable(headers, productsData);
 
         }
 

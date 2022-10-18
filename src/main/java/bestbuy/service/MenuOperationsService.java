@@ -7,13 +7,12 @@ public class MenuOperationsService implements IService {
     static MenuOperationsService menuOperationsService = new MenuOperationsService();
 
     public  void showMainMenu() {
-        System.out.println("--------------------------------------WELCOME TO BEST BUY----------------------------------------------------------------- ");
         int choice = -1;
         Scanner scanner = new Scanner(System.in);
         while(choice!=3){
             System.out.println("1) ENTER 1 FOR LOGGING AS CUSTOMER ");
             System.out.println("2) ENTER 2 FOR LOGGING AS ADMIN");
-            System.out.println("3) ENTER 3 FOR EXITING OF BEST BUY");
+            System.out.println("3) ENTER 3 FOR EXITING OUT OF BEST BUY");
             choice=scanner.nextInt();
             switch (choice){
                 case 1:
@@ -31,6 +30,7 @@ public class MenuOperationsService implements IService {
 
 
     public static void main(String[] args) {
+        System.out.println("--------------------------------------WELCOME TO BEST BUY----------------------------------------------------------------- ");
         menuOperationsService.showMainMenu();
     }
     }

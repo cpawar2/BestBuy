@@ -102,6 +102,37 @@ public class ProductOperationService {
         ASCIITable.getInstance().printTable(productHeaders, masterProductList);
 
     }
+
+    public void displayProductInventoryData(){
+       String headers [] = {"PRODUCT_ID","PRODUCT_NAME","PRODUCT_CATEGORY","PRODUCT_INVENTORY","PRODUCT_PRICE"};
+        String[][] masterProductList = new String[productsArray.length][headers.length];
+        int rowCount=0;
+        for(Product productToTraverse : productsArray){
+            masterProductList[rowCount][0]=productToTraverse.getProductID();
+            masterProductList[rowCount][1]=productToTraverse.getProductName();
+            masterProductList[rowCount][2]=productToTraverse.getProductCategory();
+            masterProductList[rowCount][3]=productToTraverse.getInventory()+"";
+            masterProductList[rowCount][4]=productToTraverse.getProductPrice()+" $";
+            rowCount+=1;
+        }
+        ASCIITable.getInstance().printTable(headers, masterProductList);
+
+    }
+
+    public void updateProductInventory(String productID,int quantity){
+        boolean productInventoryUpdated=false;
+        for(Product productToSearch: productsArray){
+            if(productToSearch.getProductID().equals(productID.trim())) {
+                productToSearch.setInventory(quantity);
+                productInventoryUpdated = true;
+            }
+        }
+        if(productInventoryUpdated){
+            System.out.println("----------------------------------------------------------------SUCCESSFULLY UPDATED INVENTORY FOR PRODUCT-------------------------------------------------------------------------");
+        }else{
+            System.out.println("-----------------------------------------------------------------COULD NOT FIND PRODUCT WITH GIVEN ID------------------------------------------------------------------------------");
+        }
+    }
     public BestBuyLinkedList<Product> searchByProductName(String searchCriteria){
         BestBuyLinkedList<Product> searchResultsBasedOnName = new BestBuyLinkedList<>();
         int searchResultsCount=0;
