@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+//Service class to handle Menu operation
 public class MenuOperationsService implements IService {
     static Scanner scanner = new Scanner(System.in);
     static MenuOperationsService menuOperationsService = new MenuOperationsService();

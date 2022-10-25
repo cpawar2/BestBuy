@@ -1,12 +1,14 @@
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
-import java.util.List;
 
+//DAO class to manager Product db operation
 public class ProductOperationsDAO {
 
+
+    //list the number of products in product table
     int getNumberOfProducts() throws SQLException {
         int countOfProducts;
         Connection connection;
@@ -26,6 +28,8 @@ public class ProductOperationsDAO {
         return countOfProducts;
     }
 
+
+    //list all products from the database
     public Product[] listProductsFromDB() throws SQLException {
         int numberOfProducts;
         try {
@@ -68,13 +72,21 @@ public class ProductOperationsDAO {
     }
 
 
-    public static void main(String[] args) {
-        ProductOperationsDAO productOperationsDAO = new ProductOperationsDAO();
-        try {
-            Product[] products = productOperationsDAO.listProductsFromDB();
-            System.out.println( productOperationsDAO.listProductsFromDB() );
+
+    //Update the inventory for the product in database
+    void updateInventory(String productID, int quantity){
+        try(Connection connection = ConnectionHandler.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(Queries.UPDATE_PRODUCT_INVENTORY)
+        ){
+            preparedStatement.setInt(1,quantity);
+            preparedStatement.setString(2,productID);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
+
+
+
 }

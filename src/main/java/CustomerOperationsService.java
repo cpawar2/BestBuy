@@ -1,6 +1,10 @@
+import org.apache.xmlbeans.soap.SOAPArrayType;
+
+//Service class to manager Customer related operations
 public class CustomerOperationsService implements IService {
      Customer customer;
      static CustomerOperationsService customerOperationsService = new CustomerOperationsService();
+     static OrderDAO orderDAO = new OrderDAO();
 
     public void viewCart(){
         customer.getCustomerCart().display();
@@ -24,6 +28,7 @@ public class CustomerOperationsService implements IService {
                     order.price  = quantity * product.getProductPrice();
                     order.status = Order.ORDER_PLACED;
                     customer.getOrderQueue().enqueue(order);
+                    orderDAO.createOrder(order);
                     orderPlaced = true;
                 }
             }
@@ -59,56 +64,45 @@ public class CustomerOperationsService implements IService {
         }
 
     }
-        public boolean validateCustomer(String customerUsername,String customerPassword){
-            Customer[] listOfCustomers = getListOfCustomers();
-            for(Customer customer : listOfCustomers){
-                if(customer.getCustomerUserName().equals(customerUsername)){
-                    if(customer.getCustomerPassword().equals(customerPassword)){
-                        this.customer = customer;
-                        return true;
-                    }
-                }
-            }
-            return false;
+        public int validateCustomer(String customerUsername, String customerPassword){
+            CustomerDAO customerDAO = new CustomerDAO();
+            int customerID = customerDAO.validateCustomer(customerUsername, customerPassword);
+            return customerID;
         }
 
-        public Customer findCustomer(String customerID){
-            Customer[] listOfCustomers = getListOfCustomers();
-            for(Customer customer : listOfCustomers){
-                if(customer.getCustomerID().equals(customerID)){
 
-                   return customer;
-                }
-            }
-            return null;
+
+        //delete order from DB
+        public void deleteOrder(int orderNO){
+            customer.getOrderQueue().dequeue();
+            OrderDAO orderDAO = new OrderDAO();
+            orderDAO.deleteOrder(orderNO);
+            System.out.println("---------------------------------ORDER DELETED SUCCESSFULLY----------------------------------");
         }
 
-        public Customer[] getListOfCustomers(){
-            Customer customersArray[] =  {new Customer("BB#101","MIKE","WATSON","mwatson","harvard"),
-                    new Customer("BB#102","HARVEY","SPECTER","hspecter","levels")};
-            return customersArray;
-        }
-
+        //menu items related to customer
         public void  showCustomerMenu(){
             String productID;
             int quantity;
-            boolean validateCustomer = false;
-            while(validateCustomer==false){
+            int customerID = 0;
+            while(customerID==0){
                 System.out.println("ENTER USERNAME ");
                 String username = MenuOperationsService.scanner.next();
                 System.out.println("ENTER PASSWORD ");
                 String password = MenuOperationsService.scanner.next();
-                validateCustomer = customerOperationsService.validateCustomer(username, password);
+                customerID = customerOperationsService.validateCustomer(username, password);
+                if(customerID!=0){
+                    customer = new Customer(username);
+                }
             }
             while(true){
                 System.out.println("1) ENTER 1 TO VIEW ALL PRODUCTS");
                 System.out.println("2) ENTER 2 TO SEARCH PRODUCT BY NAME");
                 System.out.println("3) ENTER 3 TO SEARCH PRODUCT BY SUB CATEGORY (eg: Laptop)");
                 System.out.println("4) ENTER 4 TO BUY PRODUCT");
-                System.out.println("5) ENTER 5 TO ADD PRODUCT TO CART");
-                System.out.println("6) ENTER 6 TO VIEW YOUR ORDERS");
-                System.out.println("7) ENTER 7 TO VIEW YOUR CART");
-                System.out.println("8) ENTER 8 TO GO TO MAIN MENU");
+                System.out.println("5) ENTER 5 TO VIEW YOUR ORDERS");
+                System.out.println("6) ENTER 6 TO DELETE ODER");
+                System.out.println("7) ENTER 7 TO GO TO MAIN MENU");
                 int choice = MenuOperationsService.scanner.nextInt();
                 switch (choice){
                     case 1:
@@ -132,19 +126,14 @@ public class CustomerOperationsService implements IService {
                         CustomerOperationsService.customerOperationsService.orderProduct(productID,quantity);
                         break;
                     case 5:
-                        System.out.println("Enter product ID ");
-                        productID = MenuOperationsService.scanner.next();
-                        System.out.println("Enter quantity ");
-                        quantity = MenuOperationsService.scanner.nextInt();
-                        CustomerOperationsService.customerOperationsService.addProductToCart(productID,quantity);
-                        break;
-                    case 6:
                         customer.getOrderQueue().display();
                         break;
-                    case 7:
-                        CustomerOperationsService.customerOperationsService.viewCart();
+                    case 6:
+                        System.out.println("Enter order number to delete");
+                        int orderNO = MenuOperationsService.scanner.nextInt();
+                        CustomerOperationsService.customerOperationsService.deleteOrder(orderNO);
                         break;
-                    case 8:
+                    case 7:
                         MenuOperationsService.menuOperationsService.showMainMenu();
                         break;
 
@@ -153,5 +142,6 @@ public class CustomerOperationsService implements IService {
             }
 
         }
+
 
 }

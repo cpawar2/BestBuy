@@ -1,3 +1,4 @@
+//Custom linkedlist for the application
 public class BestBuyLinkedList<T> {
 
     public BestBuyNode head;

@@ -10,6 +10,10 @@ public class Customer {
 
     private String customerPassword;
 
+
+    public Customer(String customerUserName){
+        this.customerUserName = customerUserName;
+    }
     public Customer(String customerID, String customerFirstName, String customerLastName) {
         this.customerID = customerID;
         this.customerFirstName = customerFirstName;

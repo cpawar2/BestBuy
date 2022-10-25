@@ -1,12 +1,8 @@
+//Service class to handle Admin related operations
 public class AdminOperationsService implements IService {
     public static AdminOperationsService adminOperationsService = new AdminOperationsService();
-    public static  final String ADMIN_USER_NAME = "admin";
-    public static final String ADMIN_PASSWORD = "admin";
-    public void updateOrderStatus(String OrderID){
-        System.out.println("Enter Order Status");
 
-    }
-
+    //Display menu items related to admin
     public void showMenu(){
         boolean validateAdmin = false;
         while(validateAdmin==false){
@@ -14,7 +10,7 @@ public class AdminOperationsService implements IService {
             String username = MenuOperationsService.scanner.next();
             System.out.println("ENTER PASSWORD ");
             String password = MenuOperationsService.scanner.next();
-            validateAdmin = adminOperationsService.validateAdmin(username, password);
+            validateAdmin = adminOperationsService.validateAdmin(username, password,"ADMIN");
         }
         while(true){
             System.out.println("1) ENTER 1 TO VIEW ALL ORDERS");
@@ -56,8 +52,11 @@ public class AdminOperationsService implements IService {
 
 
 
-    public boolean validateAdmin(String userName,String password){
-        if(userName.equals(ADMIN_USER_NAME)&&password.equals(ADMIN_PASSWORD)){
+    //Validate admin credentials from DB
+    public boolean validateAdmin(String userName,String password,String role){
+        UserDAO userDAO = new UserDAO();
+        int userID = userDAO.validateUser(userName, password, role);
+        if(userID!=0){
             return true;
         }
         return false;

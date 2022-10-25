@@ -2,7 +2,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+//This is a class to achieve reusability in boiler plate code to get connection
 public class ConnectionHandler {
+
+
 
     static Connection getConnection()
     {

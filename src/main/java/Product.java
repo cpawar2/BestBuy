@@ -1,5 +1,5 @@
 import java.util.Date;
-
+//Model class for Product
 public class Product {
     private String productID;
     private String productName;

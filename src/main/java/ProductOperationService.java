@@ -1,83 +1,29 @@
 import com.bethecoder.ascii_table.ASCIITable;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 
-
+//Service class to implement business logic related to Product operations
 public class ProductOperationService {
     public static String productHeaders [] ={"PRODUCT_ID","PRODUCT_NAME","PRODUCT_CATEGORY","PRODUCT_DESCRIPTION","PRODUCT_PRICE"};
 
     public static ProductOperationService productOperationService = new ProductOperationService();
+    public static ProductOperationsDAO productOperationsDAO = new ProductOperationsDAO();
     public static Product[] productsArray;
     static {
         try {
-            readProductsFile();
+            readProductsFromDB();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void readProductsFile() throws IOException {
-        FileInputStream file = new FileInputStream(new File("D:\\Users\\pawar\\MIS\\IDS 517\\Data\\dataset.xlsx"));
-
-        //Create Workbook instance holding reference to .xlsx file
-        XSSFWorkbook workbook = new XSSFWorkbook(file);
-
-        //Get first/desired sheet from the workbook
-        XSSFSheet sheet = workbook.getSheetAt(0);
-
-        //Iterate through each rows one by one
-        Iterator<Row> rowIterator = sheet.iterator();
-        int numberOfRecords = sheet.getPhysicalNumberOfRows();
-        productsArray = new Product[numberOfRecords];
-        int productsArrayIndex=0;
-        while(rowIterator.hasNext()){
-            Row row = rowIterator.next();
-            Product product =  new Product();
-            for(Cell cell:row){
-                switch(cell.getAddress().getColumn()){
-                    case 0:
-                        product.setProductID(cell.getStringCellValue());
-                        break;
-                    case 1:
-                        product.setProductName(cell.getStringCellValue());
-                        break;
-                    case 2:
-                        product.setProductCategory(cell.getStringCellValue().trim());
-                        break;
-                    case 3:
-                        product.setProductSubCategory(cell.getStringCellValue().trim().toUpperCase());
-                        break;
-                    case 4:
-                        product.setProductDescription(cell.getStringCellValue());
-                        break;
-                    case 5:
-                        product.setProductPrice(cell.getNumericCellValue());
-                        break;
-                    case 6:
-                        product.setManufacturer(cell.getStringCellValue());
-                        break;
-                    case 7:
-                        product.setInventory((int) cell.getNumericCellValue());
-                        break;
-                    case 8:
-                        product.setDiscountPercent(cell.getNumericCellValue());
-                        break;
-                    case 9:
-                        product.setProductAddedDate(cell.getDateCellValue());
-                        break;
-                    case 10:
-                        product.setProductUpdatedDate(cell.getDateCellValue());
-                }
-            }
-            productsArray[productsArrayIndex++]=product;
+    public static void readProductsFromDB() throws IOException {
+        try {
+            productsArray = productOperationsDAO.listProductsFromDB();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         Arrays.sort(productsArray, Comparator.comparing(Product::getProductSubCategory));
     }
@@ -114,6 +60,8 @@ public class ProductOperationService {
     }
 
     public void updateProductInventory(String productID,int quantity){
+        ProductOperationsDAO productOperationsDAO = new ProductOperationsDAO();
+        productOperationsDAO.updateInventory(productID,quantity);
         boolean productInventoryUpdated=false;
         for(Product productToSearch: productsArray){
             if(productToSearch.getProductID().equals(productID.trim())) {

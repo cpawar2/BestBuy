@@ -1,5 +1,5 @@
 import com.bethecoder.ascii_table.ASCIITable;
-
+//Class to display tables in CLI
 public class GenericTableDisplay {
 
     public static void showProductsLinkedList(BestBuyLinkedList bestBuyLinkedList,int countOfNodes){

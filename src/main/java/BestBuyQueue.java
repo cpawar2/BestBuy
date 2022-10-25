@@ -1,5 +1,5 @@
 import com.bethecoder.ascii_table.ASCIITable;
-
+//Custom queue for the application
 public class BestBuyQueue<T> {
     BestBuyNode front, rear;
 

@@ -1,5 +1,5 @@
 import java.util.HashMap;
-
+//Model class for Order
 public class Order {
 
     public static  int orderNumber=0;
@@ -13,6 +13,7 @@ public class Order {
 
     public String status;
 
+
     public static final String ORDER_DELIVERED = "ORDER_DELIVERED";
 
     public static final String ORDER_DISPATCHED  = "ORDER_DISPATCHED";
@@ -20,6 +21,7 @@ public class Order {
     public static final String ORDER_IN_STORE_HOUSE = "ORDER_IN_STORE_HOUSE";
     public static final String ORDER_PLACED = "ORDER_PLACED";
 
+    public static final String [] orderColumns = {"ORDER_NO","PRODUCT_ID","PRODUCT_NAME","CATEGORY","QUANTITY","PRICE","STATUS"};
     public static final HashMap<Integer,String> orderStatusMap = new HashMap<>();
    static {
        orderStatusMap.put(1,ORDER_PLACED);
@@ -31,9 +33,12 @@ public class Order {
     public static String [] headers = {"ORDER_NO","PRODUCT_ID","PRODUCT_NAME","CATEGORY","QUANTITY","PRICE","ORDER_STATUS"};
 
 
+
+   //method to generate unique order number
     public static int generateOrderNumber() {
         orderNumber+=1;
         return orderNumber;
     }
+
 
 }

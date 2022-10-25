@@ -1,5 +1,5 @@
 import com.bethecoder.ascii_table.ASCIITable;
-
+//Custom stack for the application
 public class BestBuyStack<T> {
     BestBuyNode top;
     // Constructor
