@@ -1,7 +1,3 @@
-import bestbuy.model.BestBuyLinkedList;
-import bestbuy.model.Product;
-import bestbuy.service.ProductOperationService;
-
 public class ProductOperationsServiceTest {
 
     public static void main(String[] args) {
